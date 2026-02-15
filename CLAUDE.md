@@ -54,28 +54,32 @@ These rules BLOCK the pipeline. Code violating them does not proceed.
 5. **No state updates in render.** setState calls during render cause infinite loops. Move to useEffect or event handlers.
 6. **No async in useEffect without cleanup.** Every async operation in useEffect must handle the unmounted case. Use AbortController or boolean flag.
 7. **ErrorBoundary for every route.** Each route-level component must be wrapped. Uncaught errors should never crash the full app.
+8. **No mutating array methods on state or props.** `.sort()`, `.reverse()`, `.splice()` mutate in place, breaking React's immutability contract. Use `.toSorted()`, `.toReversed()`, `.toSpliced()`, or spread-then-mutate.
+9. **No `&&` rendering with numeric or falsy values.** `{count && <Badge/>}` renders `0` as visible text when count is 0. Use explicit ternary or `> 0` check.
+10. **App-wide initialization must be idempotent.** `useEffect([], ...)` runs twice in Strict Mode. Use a module-level guard or run initialization outside components.
 
 ### Redux/RTK Iron Laws
 
-8. **No non-serializable values in store.** No functions, classes, Promises, Symbols, Maps, Sets in Redux state. Store must be JSON-serializable.
-9. **No raw async in reducers.** All async logic goes through createAsyncThunk or RTK Query. Reducers are pure synchronous functions.
-10. **No component/UI state in Redux.** Modal open/close, form input values, hover states, scroll position — these are local state (useState). Redux is for server cache and cross-component shared state.
-11. **Always use createSelector for derived data.** Selectors that compute/filter/transform must use createSelector (reselect). Prevents unnecessary re-renders.
-12. **RTK Query over manual fetching.** If RTK Query is in the project, ALL server state goes through RTK Query. No useEffect + fetch patterns alongside it.
-13. **Never spread entire slice into component.** `useSelector(state => state.users)` pulls the entire slice. Select only the specific fields needed.
+11. **No non-serializable values in store.** No functions, classes, Promises, Symbols, Maps, Sets in Redux state. Store must be JSON-serializable.
+12. **No raw async in reducers.** All async logic goes through createAsyncThunk or RTK Query. Reducers are pure synchronous functions.
+13. **No component/UI state in Redux.** Modal open/close, form input values, hover states, scroll position — these are local state (useState). Redux is for server cache and cross-component shared state.
+14. **Always use createSelector for derived data.** Selectors that compute/filter/transform must use createSelector (reselect). Prevents unnecessary re-renders.
+15. **RTK Query over manual fetching.** If RTK Query is in the project, ALL server state goes through RTK Query. No useEffect + fetch patterns alongside it.
+16. **Never spread entire slice into component.** `useSelector(state => state.users)` pulls the entire slice. Select only the specific fields needed.
 
 ### UI/UX Iron Laws
 
-14. **Semantic HTML before ARIA.** Use `<button>`, `<nav>`, `<main>`, `<dialog>` before reaching for `role=""` or `aria-*`. Native elements have built-in keyboard and screen reader support.
-15. **No color as sole indicator.** Every state communicated by color must also use icon, text, or pattern. 8% of men have color vision deficiency.
-16. **Touch targets minimum 44×44px.** Interactive elements must meet WCAG 2.5.5 (AAA) / Apple HIG. WCAG 2.5.8 (AA) requires 24×24px minimum. No 16px icon buttons without expanded hit area.
-17. **No layout shift on load.** Reserve dimensions for images, embeds, dynamic content. CLS > 0.1 is a failure.
+17. **Semantic HTML before ARIA.** Use `<button>`, `<nav>`, `<main>`, `<dialog>` before reaching for `role=""` or `aria-*`. Native elements have built-in keyboard and screen reader support.
+18. **No color as sole indicator.** Every state communicated by color must also use icon, text, or pattern. 8% of men have color vision deficiency.
+19. **Touch targets minimum 44×44px.** Interactive elements must meet WCAG 2.5.5 (AAA) / Apple HIG. WCAG 2.5.8 (AA) requires 24×24px minimum. No 16px icon buttons without expanded hit area.
+20. **No layout shift on load.** Reserve dimensions for images, embeds, dynamic content. CLS > 0.1 is a failure.
 
 ### Security Iron Laws
 
-18. **No dangerouslySetInnerHTML with untrusted content.** If the string comes from user input, API, or URL params, it MUST be sanitized with DOMPurify first. No exceptions.
-19. **No secrets in client bundle.** API keys, tokens, credentials never go in React code. Use server-side API routes or environment variables that aren't prefixed with NEXT_PUBLIC_/VITE_.
-20. **Sanitize all URL parameters used in state.** Any value from useSearchParams, useParams, or window.location that enters state or renders must be validated.
+21. **No dangerouslySetInnerHTML with untrusted content.** If the string comes from user input, API, or URL params, it MUST be sanitized with DOMPurify first. No exceptions.
+22. **No secrets in client bundle.** API keys, tokens, credentials never go in React code. Use server-side API routes or environment variables that aren't prefixed with NEXT_PUBLIC_/VITE_.
+23. **Sanitize all URL parameters used in state.** Any value from useSearchParams, useParams, or window.location that enters state or renders must be validated.
+24. **Every Server Action must verify authentication.** `"use server"` functions are public HTTP endpoints. Never rely solely on middleware or layout guards.
 
 ## Commands Reference
 

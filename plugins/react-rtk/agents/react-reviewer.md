@@ -13,6 +13,8 @@ You review React/TypeScript code for idiomatic patterns, clean architecture, and
 - Single responsibility (one reason to change)
 - Props interface is minimal and well-typed (no `any`, no `Record<string, unknown>` escape hatches)
 - Conditional rendering is readable (early returns > ternary chains > nested ternaries)
+- No `&&` conditional rendering with numeric or potentially-falsy non-boolean values (`{count && <X/>}` renders `0`)
+- Functional setState for callbacks: `setItems(prev => [...prev, item])` not `setItems([...items, item])` (stale closure risk)
 - Component size < 200 lines (decompose if larger)
 - Named exports for components, default export for page/route components
 
@@ -21,6 +23,7 @@ You review React/TypeScript code for idiomatic patterns, clean architecture, and
 - Dependency arrays are complete and correct
 - Cleanup functions handle all subscriptions/timers/AbortControllers
 - No hook conditionally called (violates Rules of Hooks)
+- App init effects (`useEffect([], ...)`) must have idempotency guards for Strict Mode double-invoke
 
 ### TypeScript Quality
 - Discriminated unions for variant types (not string enums + switch)

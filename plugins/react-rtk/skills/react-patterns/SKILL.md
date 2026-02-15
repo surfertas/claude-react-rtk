@@ -48,6 +48,32 @@ function useUsers(filters: UserFilters) {
   );
   return { users: sortedUsers, isLoading, error };
 }
+
+// ✅ Lazy state initialization
+// BAD: runs JSON.parse every render
+const [config] = useState(JSON.parse(localStorage.getItem('config') ?? '{}'));
+// GOOD: function form runs only once
+const [config] = useState(() => JSON.parse(localStorage.getItem('config') ?? '{}'));
+
+// ✅ Derived state inline (not in useEffect)
+// BAD: useEffect to sync derived value
+const [fullName, setFullName] = useState('');
+useEffect(() => { setFullName(`${first} ${last}`) }, [first, last]);
+// GOOD: compute during render
+const fullName = `${first} ${last}`;
+
+// ✅ Move effects to event handlers
+// BAD: effect reacts to state change
+const [submitted, setSubmitted] = useState(false);
+useEffect(() => { if (submitted) sendForm(data) }, [submitted]);
+// GOOD: logic in handler
+const handleSubmit = () => { sendForm(data) };
+
+// ✅ Functional setState (avoids stale closures)
+// BAD: stale closure risk
+const add = useCallback(() => setItems([...items, newItem]), [items, newItem]);
+// GOOD: stable callback
+const add = useCallback(() => setItems(prev => [...prev, newItem]), [newItem]);
 ```
 
 For detailed patterns, see `references/` directory.

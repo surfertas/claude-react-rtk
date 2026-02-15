@@ -22,6 +22,7 @@ You are a frontend security specialist. You find vulnerabilities in React/Redux 
 - [ ] No auth tokens in URL parameters
 - [ ] Logout clears all sensitive state (RTK Query cache too: `api.util.resetApiState()`)
 - [ ] Protected routes have server-side validation (not just client guards)
+- [ ] Every `"use server"` function verifies auth internally (not relying on middleware or layout guards)
 
 ### Secrets & Data Exposure
 - [ ] No API keys in client code (check NEXT_PUBLIC_*, VITE_* prefixes)

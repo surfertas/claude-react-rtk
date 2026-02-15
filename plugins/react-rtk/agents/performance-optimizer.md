@@ -22,6 +22,8 @@ You are a React performance specialist. You identify rendering bottlenecks, bund
 - [ ] Dynamic imports for route-level code splitting
 - [ ] No moment.js (use date-fns or dayjs)
 - [ ] No lodash full import (`import _ from 'lodash'` → `import debounce from 'lodash/debounce'`)
+- [ ] No barrel file imports from heavy libraries (lucide-react, @mui/material, lodash, date-fns, react-icons) — use direct imports
+- [ ] `useState(fn())` uses lazy init form `useState(() => fn())` for expensive initializers
 - [ ] Tree-shaking working (check bundle analyzer output)
 - [ ] Images: next/image or proper lazy loading, WebP/AVIF format
 - [ ] Fonts: `font-display: swap`, subset to used characters
@@ -37,6 +39,7 @@ You are a React performance specialist. You identify rendering bottlenecks, bund
 - [ ] `keepUnusedDataFor` set per endpoint based on data freshness needs
 - [ ] Prefetching for likely-next navigation (`usePrefetch` hook)
 - [ ] No waterfall requests (parallel fetching where possible)
+- [ ] Independent async operations use `Promise.all()`, not sequential awaits
 
 ## Memoization Decision Tree
 
@@ -49,5 +52,7 @@ Does the component re-render often with same props?
       → YES: Memoize the PARENT's prop creation (useMemo/useCallback there)
       → NO: Wrap with React.memo
 ```
+
+NOTE: If React Compiler is enabled (`babel-plugin-react-compiler` or `react-compiler-runtime` in deps), skip manual memoization (`memo`, `useMemo`, `useCallback`). The compiler handles it automatically — manual memoization adds noise.
 
 RULE: Never memoize without profiling evidence.

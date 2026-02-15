@@ -15,7 +15,7 @@ deeper analysis, fewer hallucinations, and no context exhaustion on large featur
 
 ```
 # In Claude Code, add the marketplace
-/plugin marketplace add your-username/claude-react-rtk
+/plugin marketplace add surfertas/claude-react-rtk
 
 # Install the plugin
 /plugin install react-rtk
@@ -24,7 +24,7 @@ deeper analysis, fewer hallucinations, and no context exhaustion on large featur
 ### From Local Path (for development)
 
 ```
-git clone https://github.com/your-username/claude-react-rtk.git
+git clone https://github.com/surfertas/claude-react-rtk.git
 
 # Option A: Add as local marketplace
 /plugin marketplace add ./claude-react-rtk
@@ -300,13 +300,13 @@ This updates `.claude/solutions/common-mistakes.md` so the same mistake is preve
 
 The plugin enforces critical rules and **stops with an explanation** if code would violate them:
 
-**React:** No useEffect for derived state. No index as key. ErrorBoundary for every route. No async in useEffect without cleanup.
+**React:** No useEffect for derived state. No index as key. ErrorBoundary for every route. No async in useEffect without cleanup. No mutating array methods on state/props. No `&&` rendering with falsy values. Idempotent app initialization.
 
 **Redux/RTK:** No non-serializable values in store. RTK Query over manual fetching. Always createSelector for derived data. Never spread entire slice.
 
 **UI/UX:** Semantic HTML before ARIA. No color as sole indicator. Touch targets minimum 44×44px. No layout shift on load.
 
-**Security:** No dangerouslySetInnerHTML with untrusted content. No secrets in client bundle. Sanitize all URL parameters used in state.
+**Security:** No dangerouslySetInnerHTML with untrusted content. No secrets in client bundle. Sanitize all URL parameters used in state. Every Server Action must verify authentication.
 
 See [CLAUDE.md](CLAUDE.md) for the full list with explanations.
 
@@ -454,6 +454,7 @@ This plugin's architecture — the agentic workflow orchestration, context super
 
 ### Other sources of inspiration
 
+- [agent-skills](https://github.com/vercel-labs/agent-skills) — Vercel's React best practices rules (Iron Laws 8-10, 24, skill enrichments)
 - [ccrider](https://github.com/neilberkman/ccrider) — Session analysis MCP
 - [awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents)
 - [claude-code-best-practice](https://github.com/shanraisshan/claude-code-best-practice)
