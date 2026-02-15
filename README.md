@@ -448,14 +448,17 @@ Each report includes a **Plugin Improvement Opportunities** section identifying
 manual workflows that could be automated, code patterns that caused bugs but the
 plugin doesn't catch (Iron Law candidates), and auto-loading gaps.
 
-## Sources and Inspiration
+## Acknowledgments
 
-- <https://github.com/oliver-kriska/claude-elixir-phoenix>
-- <https://github.com/neilberkman/ccrider>
-- <https://github.com/VoltAgent/awesome-claude-code-subagents>
-- <https://github.com/shanraisshan/claude-code-best-practice>
-- <https://github.com/anthropics/claude-code>
-- <https://basecamp.com/shapeup>
+This plugin's architecture — the agentic workflow orchestration, context supervisor pattern, Iron Laws enforcement, plan namespace structure, and multi-agent review pipeline — is directly inspired by [claude-elixir-phoenix](https://github.com/oliver-kriska/claude-elixir-phoenix) by [Oliver Kriska](https://github.com/oliver-kriska). That project demonstrated how Claude Code plugins could coordinate specialist agents at scale, and this plugin adapts those patterns for the React/Redux Toolkit ecosystem.
+
+### Other sources of inspiration
+
+- [ccrider](https://github.com/neilberkman/ccrider) — Session analysis MCP
+- [awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents)
+- [claude-code-best-practice](https://github.com/shanraisshan/claude-code-best-practice)
+- [Claude Code](https://github.com/anthropics/claude-code)
+- [Shape Up](https://basecamp.com/shapeup)
 
 ## License
 
