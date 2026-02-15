@@ -6,9 +6,6 @@
     "name": "surfertas",
     "url": "https://github.com/surfertas"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/surfertas/claude-react-rtk"
-  },
+  "repository": "https://github.com/surfertas/claude-react-rtk",
   "license": "MIT"
 }
