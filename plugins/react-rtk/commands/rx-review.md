@@ -1,6 +1,6 @@
 ---
 name: rx:review
-description: 4-agent parallel code review — idioms, security, tests, verification. Produces consolidated report with blocker/warning/suggestion severity.
+description: 5-agent parallel code review — idioms, security, tests, verification, design. Produces consolidated report with blocker/warning/suggestion severity.
 ---
 
 # /rx:review — Parallel Code Review
@@ -10,6 +10,7 @@ description: 4-agent parallel code review — idioms, security, tests, verificat
 ```
 /rx:review                    # Review current git diff
 /rx:review --focus security   # Deep dive single track
+/rx:review --focus design     # Deep dive design tokens, states, spacing
 /rx:review --staged           # Review only staged changes
 ```
 
@@ -19,6 +20,7 @@ description: 4-agent parallel code review — idioms, security, tests, verificat
 2. `security-analyzer` — XSS, auth, secrets, dependencies
 3. `testing-reviewer` — Coverage, test quality, MSW patterns
 4. `verification-runner` — TypeScript, ESLint, tests, build
+5. `uiux-designer` — Design tokens, visual states, spacing, accessibility
 
 ## Output
 

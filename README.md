@@ -57,7 +57,7 @@ It walks through the workflow, commands, and features in 4 short sections (~3 mi
 # Full autonomous mode — plan, implement, review, capture learnings
 /rx:full Add user profile avatars with S3 upload
 
-# 4-agent parallel code review (idioms, security, tests, verification)
+# 5-agent parallel code review (idioms, security, tests, verification, design)
 /rx:review
 
 # Quick implementation — skip ceremony, just code
@@ -98,7 +98,7 @@ plans/{slug}/  (in namespace) (in namespace) solutions/
 
 - **Plan** — Research agents analyze your codebase in parallel, then synthesize a structured implementation plan
 - **Work** — Execute the plan task-by-task with automatic verification after each change
-- **Review** — Four specialist agents audit your code in parallel (idioms, security, tests, build verification)
+- **Review** — Five specialist agents audit your code in parallel (idioms, security, tests, build verification, design)
 - **Compound** — Capture what you learned as reusable knowledge for future sessions
 
 ### Key Concepts
@@ -160,11 +160,12 @@ When you run `/rx:review`:
 ```
 1. parallel-reviewer collects your git diff
    │
-2. Delegates to 4 EXISTING specialist agents:
+2. Delegates to 5 EXISTING specialist agents:
    ├── react-reviewer       → Idioms, patterns, hooks usage
    ├── security-analyzer    → XSS, secrets in bundle, URL param injection
    ├── testing-reviewer     → Test coverage, RTL patterns, MSW usage
-   └── verification-runner  → tsc, eslint, prettier, vitest/jest
+   ├── verification-runner  → tsc, eslint, prettier, vitest/jest
+   └── uiux-designer        → Design tokens, states, spacing, contrast
    │
 3. Each writes to plans/{slug}/reviews/{track}.md
    │
@@ -320,7 +321,7 @@ See [CLAUDE.md](CLAUDE.md) for the full list with explanations.
 | `/rx:plan <input>` | Create implementation plan with specialist agents |
 | `/rx:plan --existing` | Enhance existing plan with deeper research |
 | `/rx:work <plan-file>` | Execute plan tasks with verification |
-| `/rx:review [focus]` | Multi-agent code review (4 parallel agents) |
+| `/rx:review [focus]` | Multi-agent code review (5 parallel agents) |
 | `/rx:compound` | Capture solved problem as reusable knowledge |
 | `/rx:triage` | Interactive triage of review findings |
 | `/rx:document` | Generate JSDoc/TSDoc, README, ADRs, Storybook stories |
@@ -355,7 +356,7 @@ See [CLAUDE.md](CLAUDE.md) for the full list with explanations.
 |-------|-------|--------|------|
 | **workflow-orchestrator** | opus | project | Full cycle coordination (plan, work, review) |
 | **planning-orchestrator** | opus | project | Parallel research agent coordination |
-| **parallel-reviewer** | opus | — | 4-agent parallel code review |
+| **parallel-reviewer** | opus | — | 5-agent parallel code review |
 | **deep-bug-investigator** | opus | — | 4-track parallel bug investigation |
 | **render-tracer** | opus | — | Component render path and prop flow tracing |
 | **security-analyzer** | opus | — | OWASP vulnerability scanning |

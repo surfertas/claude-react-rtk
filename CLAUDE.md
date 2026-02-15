@@ -27,7 +27,7 @@ Plan → Work → Review → Compound lifecycle with parallel agent coordination
                                │                      │
                     ┌──────────┼──────────┐    ┌──────┼──────┐
                     ▼          ▼          ▼    ▼      ▼      ▼
-             ┌──────────┐ ┌────────┐ ┌──────┐ ... 4 specialist
+             ┌──────────┐ ┌────────┐ ┌──────┐ ... 5 specialist
              │ react    │ │ redux  │ │ uiux │     review agents
              │ architect│ │ rtk    │ │ dsgn │
              └──────────┘ └────────┘ └──────┘
@@ -91,7 +91,7 @@ These rules BLOCK the pipeline. Code violating them does not proceed.
 | `/rx:plan <input>` | Create implementation plan with specialist agents |
 | `/rx:plan --existing` | Enhance existing plan with deeper research |
 | `/rx:work <plan-file>` | Execute plan tasks with verification |
-| `/rx:review [focus]` | Multi-agent code review (4 parallel agents) |
+| `/rx:review [focus]` | Multi-agent code review (5 parallel agents) |
 | `/rx:compound` | Capture solved problem as reusable knowledge |
 | `/rx:triage` | Interactive triage of review findings |
 | `/rx:document` | Generate JSDoc/TSDoc, README, ADRs, Storybook stories |
@@ -126,7 +126,7 @@ These rules BLOCK the pipeline. Code violating them does not proceed.
 |-------|-------|--------|------|
 | **workflow-orchestrator** | opus | project | Full cycle coordination (plan, work, review) |
 | **planning-orchestrator** | opus | project | Parallel research agent coordination |
-| **parallel-reviewer** | opus | — | 4-agent parallel code review |
+| **parallel-reviewer** | opus | — | 5-agent parallel code review |
 | **deep-bug-investigator** | opus | — | 4-track parallel bug investigation |
 | **render-tracer** | opus | — | Component render path and prop flow tracing |
 | **security-analyzer** | opus | — | OWASP vulnerability scanning, XSS/CSRF detection |
