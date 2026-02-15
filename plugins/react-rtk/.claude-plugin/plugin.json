@@ -1,0 +1,14 @@
+{
+  "name": "react-rtk",
+  "description": "Agentic workflow orchestration for React/Redux Toolkit/TypeScript development. 21 specialist agents, Iron Laws enforcement, parallel code review, design system integration.",
+  "version": "0.1.0",
+  "author": {
+    "name": "surfertas",
+    "url": "https://github.com/surfertas"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/surfertas/claude-react-rtk"
+  },
+  "license": "MIT"
+}
