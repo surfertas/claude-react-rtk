@@ -1,24 +1,20 @@
 {
-  "name": "react-rtk",
-  "version": "0.1.0",
-  "description": "Claude Code plugin for React/Redux Toolkit/UI-UX — 21 specialist agents, Iron Laws enforcement, and design system integration. Plan features with parallel research agents, execute with automatic verification, review with 4-agent parallel audits, and capture learnings as reusable knowledge.",
-  "author": "surfertas",
-  "license": "MIT",
-  "keywords": [
-    "react",
-    "redux-toolkit",
-    "rtk-query",
-    "uiux",
-    "design-system",
-    "accessibility",
-    "typescript",
-    "performance"
-  ],
+  "name": "surfertas",
+  "description": "Claude Code plugins by surfertas",
+  "version": "1.0.0",
+  "owner": {
+    "name": "surfertas"
+  },
   "plugins": [
     {
       "name": "react-rtk",
-      "path": "plugins/react-rtk",
-      "description": "React/Redux Toolkit development with agentic workflow orchestration"
+      "description": "React/Redux Toolkit/TypeScript development with 21 specialist agents, Iron Laws enforcement, and agentic workflow orchestration",
+      "version": "0.1.0",
+      "author": {
+        "name": "surfertas"
+      },
+      "source": "./plugins/react-rtk",
+      "category": "development"
     }
   ]
 }
