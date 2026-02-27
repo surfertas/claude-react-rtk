@@ -83,6 +83,29 @@ The plugin auto-loads domain knowledge based on what files you're editing
 (React patterns for `.tsx`, RTK patterns for store files, accessibility rules for form code)
 and enforces [Iron Laws](#iron-laws-non-negotiable-rules) that prevent common React/RTK mistakes.
 
+## Lifecycle Hooks
+
+The plugin includes **lifecycle hooks** that run automatically — no configuration needed:
+
+**On session start:**
+- Detects incomplete plans and suggests resuming (`/rx:work ...`)
+- Warns if your branch is behind `origin/main`
+- Shows scratchpad notes from previous sessions
+- Checks for running dev server (ports 3000, 5173, 8080)
+
+**On every file edit:**
+- Checks Prettier formatting (warn-only, never auto-fixes)
+- Injects Security Iron Laws (#21-24) when editing auth/token/credential files
+- Logs file modifications to active plan's `progress.md`
+- Blocks auto-implementation after plan creation (forces user approval)
+
+**Before context compaction:**
+- Re-injects active plan context and phase-specific rules so they survive compaction
+- Preserves plan slug, intent, and workflow discipline across long sessions
+
+**On session exit:**
+- Warns about plans with uncompleted tasks
+
 ## How It Works
 
 ### The Lifecycle
@@ -392,6 +415,7 @@ These load automatically based on file context — no commands needed:
 | `testing` | `*.test.tsx` files, MSW handlers |
 | `performance` | Large components, list renders, memo usage |
 | `accessibility` | ARIA attributes, form elements, interactive elements |
+| `intent-detection` | Session start — routes natural language to `/rx:` commands |
 
 ## Requirements
 
