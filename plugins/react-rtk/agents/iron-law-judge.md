@@ -58,3 +58,45 @@ If no token file exists, use generic detection (flag obvious magic numbers only)
 ```
 
 Severity is always BLOCKER. Iron Laws are non-negotiable.
+
+## Best Practice Patterns (WARNING)
+
+These are not Iron Laws — they don't block the pipeline. Report them as WARNING severity with suggested fixes.
+
+### Sequential Awaits
+- Pattern: `await X; await Y;` where X and Y have no data dependency → "Sequential independent awaits"
+- Look for: consecutive `await` statements where the second doesn't reference the first's result
+- Fix: "Wrap in `Promise.all([X, Y])` for parallel execution (2-10x faster)"
+
+### Deprecated forwardRef (React 19+)
+- Pattern: `forwardRef` usage when `react` version is 19+ in `package.json` → "Deprecated forwardRef"
+- Fix: "Use `ref` as a regular prop (React 19 supports this natively)"
+
+### Non-Primitive Default Props
+- Pattern: `({ items = [] })` or `({ config = {} })` or `({ callbacks = [] })` in component parameters → "Default non-primitive recreated each render"
+- Non-primitive defaults (arrays, objects) create a new reference every render, breaking memoization and effect deps
+- Fix: "Hoist to module-level constant: `const EMPTY_ITEMS: Item[] = [];`"
+
+### Barrel Import Detection
+- Already detected in Iron Laws for known libraries (`lucide-react`, `@mui/material`, etc.)
+- Additionally flag: `import { ... } from '@heroicons/react'`, `import { ... } from 'phosphor-react'`, `import { ... } from '@radix-ui/react-icons'`
+- Fix: "Use direct path imports to avoid importing the entire library"
+
+### Content Visibility (Informational)
+- Pattern: `.map()` rendering 50+ items without `content-visibility: auto` or virtualization (`react-window`, `@tanstack/virtual`) → "Long list without virtualization or content-visibility"
+- This is informational only — flag but don't insist
+- Fix: "Consider `content-visibility: auto` for CSS-only optimization or `@tanstack/react-virtual` for large lists"
+
+## Output (WARNING section)
+
+Append after BLOCKER violations:
+
+```markdown
+## WARNINGS: X
+
+### [BEST PRACTICE] {Pattern name}
+- **File:** {path}:{line}
+- **Code:** `{offending code snippet}`
+- **Suggestion:** {brief instruction}
+- **Impact:** {performance/correctness context}
+```

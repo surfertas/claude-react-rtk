@@ -51,4 +51,115 @@ If React Compiler is enabled (`babel-plugin-react-compiler` or `react-compiler-r
 ### Core Web Vitals Targets
 - LCP < 2.5s | INP < 200ms | CLS < 0.1
 
+### Waterfall Elimination
+
+Sequential awaits are the #1 server performance killer. Independent async operations must run in parallel.
+
+```typescript
+// BAD: sequential — total time = a + b + c
+const users = await getUsers();
+const posts = await getPosts();
+const comments = await getComments();
+
+// GOOD (async-parallel): parallel — total time = max(a, b, c), 2-10x faster
+const [users, posts, comments] = await Promise.all([
+  getUsers(),
+  getPosts(),
+  getComments(),
+]);
+
+// GOOD (async-dependencies): start early, await late
+const usersPromise = getUsers();       // starts immediately
+const config = await getConfig();       // needed first
+const users = await usersPromise;       // already in flight
+
+// GOOD (async-api-routes): kick off fetches before unrelated work
+export async function GET(request: Request) {
+  const dataPromise = fetchExternalData();  // start fetch
+  const session = await getSession();       // do auth meanwhile
+  if (!session) return unauthorized();
+  const data = await dataPromise;           // fetch likely done already
+  return Response.json(data);
+}
+
+// GOOD (async-defer-await): await only in branches that need the value
+const resultPromise = expensiveComputation();
+if (condition) {
+  return quickPath();                       // never awaits
+}
+const result = await resultPromise;         // only awaited when needed
+```
+
+**`async-suspense-boundaries`**: Wrap async Server Components in `<Suspense>` to stream progressively. Without boundaries, the entire page blocks on the slowest component.
+
+```tsx
+// BAD: entire page waits for slowest component
+export default async function Page() {
+  return (
+    <div>
+      <SlowChart />    {/* 3s — blocks everything */}
+      <FastSidebar />  {/* 100ms — waits for chart */}
+    </div>
+  );
+}
+
+// GOOD: fast parts stream immediately, slow parts show fallback
+export default function Page() {
+  return (
+    <div>
+      <Suspense fallback={<ChartSkeleton />}>
+        <SlowChart />
+      </Suspense>
+      <FastSidebar />  {/* renders immediately */}
+    </div>
+  );
+}
+```
+
+### Bundle Optimization
+
+```typescript
+// bundle-conditional: dynamic import inside event handler / feature flag
+const handleExport = async () => {
+  const { exportToPDF } = await import('./exportToPDF');
+  exportToPDF(data);
+};
+
+// bundle-defer-third-party: load analytics AFTER hydration
+useEffect(() => {
+  import('./analytics').then(({ init }) => init());
+}, []);
+// Or Next.js: <Script src="analytics.js" strategy="afterInteractive" />
+
+// bundle-preload: preload on hover for perceived instant navigation
+<Link
+  href="/dashboard"
+  prefetch={true}                    // Next.js built-in
+  onMouseEnter={() => import('./pages/Dashboard')}  // manual preload
+>
+  Dashboard
+</Link>
+```
+
+### Rendering Performance
+
+```css
+/* rendering-content-visibility: skip rendering of off-screen sections */
+.long-list-item {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 200px;  /* estimated height */
+}
+```
+
+**`rendering-hydration-no-flicker`**: Inline a small `<script>` for client-only data (theme, auth state) to prevent FOUC. The script runs before React hydrates.
+
+```html
+<!-- In <head> or before React root -->
+<script>
+  // Prevents theme flash — runs before paint
+  document.documentElement.dataset.theme =
+    localStorage.getItem('theme') || 'system';
+</script>
+```
+
 For detailed patterns, see `references/` directory.
